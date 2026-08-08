@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roleplay Game</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css')}}">
+</head>
+<body>
+    <header class="container pt-5 pb-4">
+        <a class="btn btn-back" href="/" role="button">
+            <i class="bi bi-arrow-left-short"></i>
+            Back to exercises
+        </a>
+        <h1 class="display-5 fw-bold">Roleplay Game</h1>
+        <p>Step into the given role and improvise a short speech or performance as that character, in that situation.</p>
+    </header>
+    <div class="container">
+        {% for s in scenarios %}
+        <div class="card mb-4 pt-3 px-3">
+            <span class="badge-scenario align-self-start mb-3">Scenario #{{s.id}}</span>
+            <h5>{{s.title}}</h2>
+            <p>{{s.scenario}}</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

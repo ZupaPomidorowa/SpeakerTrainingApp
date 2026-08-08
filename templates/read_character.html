@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read as a Character</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css')}}">
+</head>
+<body>
+    <header class="container pt-5 pb-4">
+        <a class="btn btn-back" href="/" role="button">
+            <i class="bi bi-arrow-left-short"></i>
+            Back to exercises
+        </a>
+        <h1 class="display-5 fw-bold">Read as a Character</h1>
+        <p>Read the scenario below, then read the provided text out loud exactly as the scenario describe.
+            Adjust your voice, pace, tone, and emotion to match the character and situation.</p>
+    </header>
+    <div class="container">
+        <div class="card p-3">
+            <span class="badge-scenario align-self-start mb-3">Scenario</span>
+            <p>{{scenario}}</p>
+            <hr class="hr hr-blurry p-2"/>
+            <span class="badge-text align-self-start mb-3">Text to read</span>
+            {% for paragraph in text %}
+            <p>{{paragraph}}</p>
+            {% endfor %}
+        </div>
+        <a class="btn btn-new-exercise mt-4 mb-4" href="" role="button">
+            <i class="bi bi-shuffle"></i>
+            New exercise
+        </a>
+    </div>
+</body>
+</html>

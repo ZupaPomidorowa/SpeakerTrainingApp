@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation karaoke</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css')}}">
+</head>
+<body>
+    <header class="container pt-5 pb-4">
+        <a class="btn btn-back" href="/" role="button">
+            <i class="bi bi-arrow-left-short"></i>
+            Back to exercises
+        </a>
+        <h1 class="display-5 fw-bold">Presentation karaoke</h1>
+        <p>Improvise a talk on each slide. When the timer runs out, the next slide appears.</p>
+    </header>
+    <div class="container">
+        <div class="card p-3 text-center">
+            <img class="karaoke-frame" id="slide" alt="Slide"></img>
+            <div class="karaoke-message" id="message">That's a wrap!</div>
+            <div class="karaoke-timer" id="timer">20s</div>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <button class="btn btn-start" id="start">Start</button>
+                <button class="btn btn-start" id="next">Skip slide</button>
+                <button class="btn btn-start" id="restart">Restart</button>
+            </div>
+        </div>
+    </div>
+    <script id="slides-data" type="application/json">{{ slides | tojson }}</script>
+    <script>
+        const slideUrls = JSON.parse(document.getElementById("slides-data").textContent);
+        const SECONDS_PER_SLIDE = 20;
+
+        let index = 0;
+        let timeLeft = SECONDS_PER_SLIDE;
+        let timerId = null;
+
+        const slideEl   = document.getElementById("slide");
+        const messageEl = document.getElementById("message");
+        const timerEl   = document.getElementById("timer");
+        const startBtn  = document.getElementById("start");
+
+        function render() {
+            slideEl.src            = slideUrls[index];
+            slideEl.style.display  = "";        // show the slide
+            messageEl.style.display = "none";   // hide the end message
+            timerEl.style.display  = "";
+            timerEl.textContent    = timeLeft + "s";
+        }
+
+        function tick() {
+            timeLeft--;
+            if (timeLeft <= 0) { nextSlide(); return; }
+            timerEl.textContent = timeLeft + "s";
+        }
+
+        function start() {
+            if (timerId) return;               
+            render();
+            timerId = setInterval(tick, 1000);
+            startBtn.disabled = true;
+        }
+
+        function nextSlide() {
+            index++;
+            if (index >= slideUrls.length) { finish(); return; }
+            timeLeft = SECONDS_PER_SLIDE;
+            render();
+        }
+
+        function finish() {
+            clearInterval(timerId);
+            timerId = null;
+            slideEl.style.display   = "none";    // hide the slide
+            timerEl.style.display   = "none";    // hide the timer
+            messageEl.style.display = "flex";    // show centered end message
+            startBtn.disabled = false;
+        }
+
+        function restart() {
+            location.reload();
+        }
+
+        startBtn.addEventListener("click", start);
+        document.getElementById("next").addEventListener("click", nextSlide);
+        document.getElementById("restart").addEventListener("click", restart);
+
+        render();
+    </script>
+</body>
+</html>
