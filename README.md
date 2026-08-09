@@ -35,6 +35,6 @@ docker compose up
 ## Adding content
 
 - **New text:** add a `.txt` file in `content/texts/`
-- **New slides:** add a slide image to `content/slides/`.
+- **New slides:** add a slide image to `content/slides/`
 - **New tongue twister / word:** edit the relevant list in `content/`
 
